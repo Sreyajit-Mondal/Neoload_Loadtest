@@ -24,7 +24,16 @@ jobs:
         env:
           NEOTOKEN: ${{ secrets.NELOAD_WEB_TOKEN }}
         run: |
+          echo "🔐 Debug: Token starts with: ${NEOTOKEN:0:4}"
+          if [ -z "$NEOTOKEN" ]; then
+            echo "❌ NEOTOKEN is empty! Make sure the GitHub secret is set correctly."
+            exit 1
+          fi
+
+          echo "✅ Logging in to NeoLoad..."
           neoload login "$NEOTOKEN"
+
+          echo "🚀 Running NeoLoad test..."
           neoload run \
             --project Demo1.nlp \
             --scenario "MyScenario" \
