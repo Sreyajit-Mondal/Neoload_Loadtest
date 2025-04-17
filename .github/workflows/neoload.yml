@@ -18,14 +18,13 @@ jobs:
           java-version: '17'
 
       - name: Install NeoLoad CLI
-        run: |
-          pip install neoload
+        run: pip install neoload
 
-      - name: Run NeoLoad CLI
+      - name: Run NeoLoad Test
         env:
           NEOTOKEN: ${{ secrets.NELOAD_WEB_TOKEN }}
         run: |
-          neoload login --token $NEOTOKEN
+          neoload login "$NEOTOKEN"
           neoload run \
             --project Demo1.nlp \
             --scenario "MyScenario" \
