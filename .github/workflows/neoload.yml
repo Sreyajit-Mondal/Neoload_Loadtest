@@ -17,14 +17,22 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Run NeoLoad CLI
-        run: |
-          echo "Simulating NeoLoad run"
-          mkdir loadTest
-          echo "NeoLoad test results here" > loadTest/test.txt
+      - name: Create result folder
+        run: mkdir -p loadTest
 
-      - name: Publish artifacts
+      - name: Run NeoLoad CLI using Docker
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/workspace \
+            neotys/neoload-cli:latest \
+            run \
+            --project /workspace/Demo1.nlp \
+            --scenario "MyScenario" \
+            --nlweb-token ${{ secrets.NEOLAOD_WEB_TOKEN }} \
+            --report-file /workspace/loadTest/neoload-report.html
+
+      - name: Upload NeoLoad Results
         uses: actions/upload-artifact@v4
         with:
-          name: loadTestResults
+          name: NeoLoad_Report
           path: ${{ github.workspace }}/loadTest
