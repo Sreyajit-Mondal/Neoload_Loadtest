@@ -21,7 +21,7 @@ jobs:
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/workspace \
-            neotys/neoload-cli:latest run \
+            neoload/neoload-cli:latest run \
             --project /workspace/Demo1.nlp \
             --scenario "MyScenario" \
             --nlweb-token ${{ secrets.NEOLAOD_WEB_TOKEN }} \
