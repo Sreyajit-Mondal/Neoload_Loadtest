@@ -17,15 +17,18 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Run NeoLoad CLI
-        uses: neotys/run-cli@v1
-        with:
-          project: 'Demo1.nlp'
-          scenario: 'MyScenario'
-          token: ${{ secrets.NEOLAOD_WEB_TOKEN }}
+      - name: Run NeoLoad CLI via Docker
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/workspace \
+            neotys/neoload-cli:latest run \
+            --project /workspace/Demo1.nlp \
+            --scenario "MyScenario" \
+            --nlweb-token ${{ secrets.NEOLAOD_WEB_TOKEN }} \
+            --report-file /workspace/loadTest/neoload-report.html
 
       - name: Upload NeoLoad Results
         uses: actions/upload-artifact@v4
         with:
           name: NeoLoad_Report
-          path: ${{ github.workspace }}/loadTest
+          path: loadTest/
