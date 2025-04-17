@@ -23,6 +23,7 @@ jobs:
       - name: Run NeoLoad Test
         env:
           NEOTOKEN: ${{ secrets.NELOAD_WEB_TOKEN }}
+          NEOLOAD_API_URL: "https://neoload.saas.neotys.com"
         run: |
           echo "🔐 Debug: Token starts with: ${NEOTOKEN:0:4}"
           if [ -z "$NEOTOKEN" ]; then
@@ -30,12 +31,16 @@ jobs:
             exit 1
           fi
 
+          # Debugging to check URL connection
+          echo "🔍 Debug: Attempting to reach NeoLoad Web API..."
+          curl -v "$NEOLOAD_API_URL/explore/v2/swagger.yaml"  # Replace with the NeoLoad Web API URL
+
           echo "✅ Logging in to NeoLoad..."
-          neoload login "$NEOTOKEN"
+          neoload login --token "$NEOTOKEN" --url "$NEOLOAD_API_URL"
 
           echo "🚀 Running NeoLoad test..."
           neoload run \
-            Demo1.nlp \  # Directly specify the project name without --project option
+            Demo1.nlp \
             --scenario "MyScenario" \
             --report-file /workspace/loadTest/neoload-report.html
 
