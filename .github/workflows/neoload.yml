@@ -1,0 +1,42 @@
+name: Run NeoLoad Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-neoload:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install Java (required for NeoLoad CLI)
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+
+    - name: Install NeoLoad CLI
+      run: |
+        wget https://neoload-cli.s3.eu-west-3.amazonaws.com/neoload-cli-linux.zip -O neoload-cli.zip
+        unzip neoload-cli.zip -d neoload-cli
+        sudo mv neoload-cli/bin/* /usr/local/bin/
+
+    - name: Run NeoLoad test
+      run: |
+        neoload test-settings --project Demo1.nlp
+        neoload run \
+          --project Demo1.nlp \
+          --scenario "MyScenario" \
+          --name "GitHub_Run_$(date +%Y%m%d%H%M%S)" \
+          --web-url https://neoload-web.your-company.com \
+          --token ${{ secrets.NEOLAOD_WEB_TOKEN }}
+
+    # Optional: Upload reports
+    - name: Upload NeoLoad Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: neoload-report
+        path: report.html
