@@ -20,11 +20,11 @@ jobs:
       - name: Run NeoLoad CLI
         run: |
           echo "Simulating NeoLoad run"
-          mkdir results
-          echo "NeoLoad test results here" > results/test.txt
+          mkdir loadTest
+          echo "NeoLoad test results here" > loadTest/test.txt
 
-      - name: Upload NeoLoad results
-        uses: actions/upload-artifact@v3
+      - name: Publish artifacts
+        uses: actions/upload-artifact@v4
         with:
-          name: neoload-results
-          path: results/
+          name: loadTestResults
+          path: ${{ github.workspace }}/loadTest
