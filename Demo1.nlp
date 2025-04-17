@@ -1,0 +1,16 @@
+# Project description file
+
+project.name=Demo1
+project.version=8.10
+project.original.version=8.10
+product.name=NeoLoad
+product.original.name=NeoLoad
+ssh.trustUnknownHosts.MONITORS=false
+monitor.tls.insecure=false
+product.version=2025.1.0
+product.original.version=2025.1.0
+project.is-open-test-settings-after-upload=false
+project.id=389ee3a0-9a1a-43b4-92bd-d000374f9dbd
+project.config.path=config.zip
+project.config.storage=ZIP
+team.server.enabled=false
