@@ -35,7 +35,7 @@ jobs:
 
           echo "🚀 Running NeoLoad test..."
           neoload run \
-            --project-path /workspace/Demo1.nlp \   # Using --project-path instead of --project
+            --project Demo1.nlp \  # Use project name instead of --project-path
             --scenario "MyScenario" \
             --report-file /workspace/loadTest/neoload-report.html
 
