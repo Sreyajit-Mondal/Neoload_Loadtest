@@ -22,7 +22,8 @@ jobs:
           docker pull paulsbruce/neoload-cli:0.4.6
           docker run --rm \
             -v ${{ github.workspace }}:/workspace \
-            paulsbruce/neoload-cli:0.4.6 run \
+            paulsbruce/neoload-cli:0.4.6 \
+            neoload run \
             --project /workspace/Demo1.nlp \
             --scenario "MyScenario" \
             --nlweb-token ${{ secrets.NELOAD_WEB_TOKEN }} \
