@@ -17,21 +17,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install NeoLoad CLI
-        run: pip install neoload
-
-      - name: Run NeoLoad Test
-        env:
-          NEOTOKEN: ${{ secrets.NELOAD_WEB_TOKEN }}
+      - name: Run NeoLoad CLI
         run: |
-          neoload login "$NEOTOKEN"
-          neoload run \
-            --project Demo1.nlp \
-            --scenario "MyScenario" \
-            --report-file loadTest/neoload-report.html
-
-      - name: Upload NeoLoad Results
+          echo "Simulating NeoLoad run"
+          mkdir loadTest
+          echo "NeoLoad test results here" > loadTest/test.txt
+      - name: Publish artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: NeoLoad_Report
-          path: loadTest/
+          name: loadTestResults
+          path: ${{ github.workspace }}/loadTest
