@@ -17,18 +17,21 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Download NeoLoad CLI
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install NeoLoad CLI
         run: |
-          wget https://github.com/Neotys-Labs/neoload-cli/releases/download/1.3.12/neoload-cli-1.3.12.zip -O neoload-cli.zip
-          unzip neoload-cli.zip -d neoload-cli
-          echo "${GITHUB_WORKSPACE}/neoload-cli" >> $GITHUB_PATH
+          pip install neoload
 
       - name: Run NeoLoad CLI
         run: |
           neoload run \
             --project Demo1.nlp \
             --scenario "MyScenario" \
-            --nlweb-token ${{ secrets.NEOLAOD_WEB_TOKEN }} \
+            --nlweb-token ${{ secrets.NEOLOAD_WEB_TOKEN }} \
             --report-file loadTest/neoload-report.html
 
       - name: Upload NeoLoad Results
