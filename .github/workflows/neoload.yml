@@ -26,16 +26,16 @@ jobs:
         run: |
           pip install neoload
 
-      - name: Run NeoLoad CLI
+      - name: Run NeoLoad Test
         run: |
           neoload run \
-            --project Demo1.nlp \
             --scenario "MyScenario" \
-            --nlweb-token ${{ secrets.NEOLOAD_WEB_TOKEN }} \
-            --report-file loadTest/neoload-report.html
+            --test-result-name "GitHub_Run_001" \
+            --url https://neoload.saas.neotys.com \
+            --token ${{ secrets.NEOLOAD_WEB_TOKEN }}
 
-      - name: Upload NeoLoad Results
+      - name: Upload Results (Optional if using NeoLoad Web directly)
         uses: actions/upload-artifact@v4
         with:
-          name: NeoLoad_Report
+          name: NeoLoad_Test_Result
           path: loadTest/
