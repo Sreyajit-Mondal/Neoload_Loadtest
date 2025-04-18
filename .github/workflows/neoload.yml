@@ -5,28 +5,34 @@ on:
 
 jobs:
   run-neoload:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Download NeoLoad CLI
         run: |
-          Invoke-WebRequest -Uri https://github.com/Neotys-Labs/neoload-cli/releases/download/2.11.0/neoload-cli-2.11.0.zip -OutFile neoload-cli.zip
-          Expand-Archive neoload-cli.zip -DestinationPath neoload-cli
-          echo "${{ github.workspace }}\neoload-cli" >> $env:GITHUB_PATH
+          wget https://github.com/Neotys-Labs/neoload-cli/releases/download/1.3.12/neoload-cli-1.3.12.zip -O neoload-cli.zip
+          unzip neoload-cli.zip -d neoload-cli
+          echo "${GITHUB_WORKSPACE}/neoload-cli" >> $GITHUB_PATH
 
-      - name: Run NeoLoad Test
+      - name: Run NeoLoad CLI
         run: |
           neoload run \
-            --project-path ./Demo1.nlp \
-            --scenario "Scenario" \
-            --zone "defaultzone" \
-            --test-result-name "GitHub_Action_Test"
+            --project Demo1.nlp \
+            --scenario "MyScenario" \
+            --nlweb-token ${{ secrets.NEOLAOD_WEB_TOKEN }} \
+            --report-file loadTest/neoload-report.html
 
-      - name: Upload Results
+      - name: Upload NeoLoad Results
         uses: actions/upload-artifact@v4
         with:
-          name: loadTestResults
-          path: results/
+          name: NeoLoad_Report
+          path: loadTest/
