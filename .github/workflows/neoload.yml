@@ -1,33 +1,29 @@
-name: Trigger NeoLoad Web Test
+name: Run NeoLoad Web Test
 
 on:
   workflow_dispatch:
 
 jobs:
-  neoload-cli-run:
+  neoload-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
 
-      - name: Install NeoLoad CLI
-        run: |
-          pip install neoload
-          pip install certifi  # Just in case for SSL issues
+    - name: Install NeoLoad CLI
+      run: pip install neoload
 
-      - name: Login to NeoLoad Web
-        run: neoload login ${{ secrets.NEOLOAD_WEB_TOKEN }}
+    - name: Login to NeoLoad Web
+      run: neoload login ${{ secrets.NEOLOAD_WEB_TOKEN }}
 
-      - name: Use Default Workspace (optional)
-        run: neoload workspaces use "Default Workspace"
-
-      - name: Trigger Scenario 1
-        run: |
-          neoload tests ls
-          neoload run "scenario 1" --name "GitHub_CI_Run_01"
+    - name: Run Scenario
+      run: |
+        neoload run \
+          "GitHub_CI_Run_01" \
+          --scenario "scenario 1"
