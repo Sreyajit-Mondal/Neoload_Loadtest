@@ -29,13 +29,13 @@ jobs:
       - name: Run NeoLoad Test
         run: |
           neoload run \
-            --scenario "MyScenario" \
-            --test-result-name "GitHub_Run_001" \
+            --scenario "scenario 1" \
+            --test-result-name "GitHub_CI_Run_01" \
             --url https://neoload.saas.neotys.com \
             --token ${{ secrets.NEOLOAD_WEB_TOKEN }}
 
-      - name: Upload Results (Optional if using NeoLoad Web directly)
+      - name: Upload Results (optional)
         uses: actions/upload-artifact@v4
         with:
-          name: NeoLoad_Test_Result
-          path: loadTest/
+          name: NeoLoad_Test_Logs
+          path: ./  # Or specify a folder if CLI stores logs locally
