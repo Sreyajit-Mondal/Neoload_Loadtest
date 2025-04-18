@@ -11,9 +11,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install NeoLoad CLI
+      - name: Download NeoLoad CLI
         run: |
-          choco install neoload-cli -y
+          Invoke-WebRequest -Uri https://github.com/Neotys-Labs/neoload-cli/releases/download/2.11.0/neoload-cli-2.11.0.zip -OutFile neoload-cli.zip
+          Expand-Archive neoload-cli.zip -DestinationPath neoload-cli
+          echo "${{ github.workspace }}\neoload-cli" >> $env:GITHUB_PATH
 
       - name: Run NeoLoad Test
         run: |
@@ -23,7 +25,7 @@ jobs:
             --zone "defaultzone" \
             --test-result-name "GitHub_Action_Test"
 
-      - name: Publish artifacts
+      - name: Upload Results
         uses: actions/upload-artifact@v4
         with:
           name: loadTestResults
