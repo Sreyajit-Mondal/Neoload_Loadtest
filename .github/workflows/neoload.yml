@@ -1,4 +1,4 @@
-name: Run NeoLoad Test
+name: Run NeoLoad Test via CLI
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Set up Java
@@ -28,9 +28,9 @@ jobs:
 
       - name: Login to NeoLoad Web
         run: |
-          neoload login --token ${{ secrets.NEOLOAD_WEB_TOKEN }}
+          neoload login ${{ secrets.NEOLOAD_WEB_TOKEN }}
 
-      - name: Run NeoLoad Test
+      - name: Run NeoLoad Scenario
         run: |
           neoload run \
             --scenario "scenario 1" \
