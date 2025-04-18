@@ -25,8 +25,13 @@ jobs:
       - name: Install NeoLoad CLI
         run: pip install neoload
 
+      - name: Print NeoLoad CLI version (debug)
+        run: neoload --version
+
       - name: Login to NeoLoad Web
-        run: neoload login ${{ secrets.NEOLOAD_WEB_TOKEN }}
+        run: |
+          echo "Logging in..."
+          neoload login --debug ${{ secrets.NEOLOAD_WEB_TOKEN }}
 
       - name: Run NeoLoad Scenario
         run: |
