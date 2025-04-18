@@ -1,7 +1,7 @@
 name: Run NeoLoad Test
 
 on:
-  workflow_dispatch:  # Allows manual trigger
+  workflow_dispatch:
 
 jobs:
   run-neoload:
@@ -26,13 +26,12 @@ jobs:
         run: |
           pip install neoload
 
-      - name: Check NeoLoad CLI Version (Optional)
-        run: neoload --version
+      - name: Login to NeoLoad Web
+        run: |
+          neoload login --token ${{ secrets.NEOLOAD_WEB_TOKEN }}
 
       - name: Run NeoLoad Test
         run: |
           neoload run \
             --scenario "scenario 1" \
-            --url https://neoload.saas.neotys.com \
-            --token ${{ secrets.NEOLOAD_WEB_TOKEN }} \
             "GitHub_CI_Run_01"
