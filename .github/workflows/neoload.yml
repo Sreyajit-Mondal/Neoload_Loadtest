@@ -1,14 +1,14 @@
-name: Run NeoLoad Test via CLI
+name: Run NeoLoad Test
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Allows manual run from GitHub UI
 
 jobs:
   run-neoload:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Java
@@ -25,29 +25,17 @@ jobs:
       - name: Install NeoLoad CLI
         run: pip install neoload
 
-      - name: Print NeoLoad CLI version (debug)
-        run: neoload --version
-
       - name: Login to NeoLoad Web
-        run: |
-          echo "Logging in..."
-          neoload login --debug ${{ secrets.NEOLOAD_WEB_TOKEN }}
+        run: neoload login ${{ secrets.NEOLOAD_WEB_TOKEN }}
 
       - name: Run NeoLoad Scenario
         run: |
           neoload run \
             --scenario "scenario 1" \
-            --description "GitHub run on $(date)" \
-            --as-code \
             GitHub_CI_Run_01
 
-      - name: Export HTML Report
-        run: |
-          mkdir -p loadTest
-          neoload export-report --html loadTest/neoload-report.html
-
-      - name: Upload Test Report
+      - name: Upload Results (Optional if you're exporting results to a file)
         uses: actions/upload-artifact@v4
         with:
-          name: neoload-report
+          name: NeoLoad_Test_Results
           path: loadTest/
