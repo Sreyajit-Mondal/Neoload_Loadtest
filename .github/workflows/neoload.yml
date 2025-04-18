@@ -1,7 +1,7 @@
 name: Run NeoLoad Test
 
 on:
-  workflow_dispatch: # Allows manual run from GitHub UI
+  workflow_dispatch:
 
 jobs:
   run-neoload:
@@ -33,9 +33,3 @@ jobs:
           neoload run \
             --scenario "scenario 1" \
             GitHub_CI_Run_01
-
-      - name: Upload Results (Optional if you're exporting results to a file)
-        uses: actions/upload-artifact@v4
-        with:
-          name: NeoLoad_Test_Results
-          path: loadTest/
