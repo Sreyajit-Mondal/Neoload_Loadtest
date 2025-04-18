@@ -1,14 +1,14 @@
 name: Run NeoLoad Test
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
   run-neoload:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
       - name: Set up Java
@@ -26,16 +26,13 @@ jobs:
         run: |
           pip install neoload
 
+      - name: Check NeoLoad CLI Version (Optional)
+        run: neoload --version
+
       - name: Run NeoLoad Test
         run: |
           neoload run \
             --scenario "scenario 1" \
-            --test-result-name "GitHub_CI_Run_01" \
             --url https://neoload.saas.neotys.com \
-            --token ${{ secrets.NEOLOAD_WEB_TOKEN }}
-
-      - name: Upload Results (optional)
-        uses: actions/upload-artifact@v4
-        with:
-          name: NeoLoad_Test_Logs
-          path: ./  # Or specify a folder if CLI stores logs locally
+            --token ${{ secrets.NEOLOAD_WEB_TOKEN }} \
+            "GitHub_CI_Run_01"
