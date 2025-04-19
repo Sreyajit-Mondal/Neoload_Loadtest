@@ -1,4 +1,5 @@
 name: NeoLoad Github Action Test
+
 on:
   workflow_dispatch:
     inputs:
@@ -6,14 +7,10 @@ on:
         required: true
         description: 'NeoLoad Web Api Url'
         default: 'https://neoload-api.saas.neotys.com/'
-      token:
-        required: true
-        description: 'NeoLoad Web Token'
-        default: '${{ secrets.NEOLOAD_WEB_TOKEN }}'
       zone_id:
         required: true
         description: 'Zone identifier'
-        default: 'defaultzone'  # Replace 'your-zone-id' with the actual Zone ID
+        default: 'defaultzone'
 
 jobs:
   neoload_cli_demo:
@@ -33,17 +30,17 @@ jobs:
 
       - name: "Prepare NeoLoad test"
         run: >
-          neoload login --url ${{ github.event.inputs.api_url }} --token ${{ github.event.inputs.token }} &&
+          neoload login --url ${{ github.event.inputs.api_url }} --token ${{ secrets.NEOLOAD_WEB_TOKEN }} &&
           neoload test-settings --zone ${{ github.event.inputs.zone_id }} --scenario 'scenario1' createorpatch "My Github Test With CLI" &&
           neoload project --path Demo1.nlp upload
 
       - name: "NeoLoad run test"
         run: >
-          neoload run --external-url $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID 
+          neoload run 
+          --external-url $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID 
           --external-url-label "Github Action Run $GITHUB_RUN_NUMBER" 
           --name "Github pipeline performance regression test - Github build #$GITHUB_RUN_NUMBER" 
-          --description "Example of CI performance regression job started from Github." 
-          --return-0
+          --description "Example of CI performance regression job started from Github."
 
       - name: "Generate Test Report"
         id: report
