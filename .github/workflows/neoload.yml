@@ -9,11 +9,11 @@ on:
       token:
         required: true
         description: 'NeoLoad Web Token'
-        default: 'specify_token_or_get_it_from_credentials'
+        default: '${{ secrets.NEOLOAD_WEB_TOKEN }}'
       zone_id:
         required: true
         description: 'Zone identifier'
-        default: 'your-zone-id'  # Replace 'your-zone-id' with the actual Zone ID
+        default: 'defaultzone'  # Replace 'your-zone-id' with the actual Zone ID
 
 jobs:
   neoload_cli_demo:
