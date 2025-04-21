@@ -27,7 +27,7 @@ jobs:
         run: pip3 install -U neoload
 
       - name: "Get NeoLoad project"
-        run: >
+        run: |
           wget https://github.com/Sreyajit-Mondal/Neoload_Loadtest/raw/main/Demo1.zip -O Demo1.zip
           unzip Demo1.zip -d Demo1
       - name: "Prepare NeoLoad test"
