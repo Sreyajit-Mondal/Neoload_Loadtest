@@ -28,13 +28,13 @@ jobs:
 
       - name: "Get NeoLoad project"
         run: >
-          wget https://github.com/Sreyajit-Mondal/Neoload_Loadtest/raw/main/Demo1.zip
-          unzip Demo1.zip
+          wget https://github.com/Sreyajit-Mondal/Neoload_Loadtest/raw/main/Demo1.zip -O Demo1.zip
+          unzip Demo1.zip -d Demo1
       - name: "Prepare NeoLoad test"
         run: >
           neoload login --url ${{ github.event.inputs.api_url }} ${{ github.event.inputs.token }} &&
           neoload test-settings --zone ${{ github.event.inputs.zone_id }} --scenario 'simpledemo' createorpatch "My Github Test With CLI" &&
-          neoload project --path Demo1.nlp upload
+          neoload project --path Demo1/Demo1.nlp upload
 
       - name: "NeoLoad run test"
         run: >
