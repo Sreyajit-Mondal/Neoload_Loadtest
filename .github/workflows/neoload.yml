@@ -28,9 +28,8 @@ jobs:
 
       - name: "Get NeoLoad project"
         run: >
-          rm -f *.nlp;
-          wget https://raw.githubusercontent.com/Sreyajit-Mondal/Neoload_Loadtest/main/Demo1.nlp
-
+          wget https://github.com/Sreyajit-Mondal/Neoload_Loadtest/raw/main/Demo1.zip
+          unzip Demo1.zip
       - name: "Prepare NeoLoad test"
         run: >
           neoload login --url ${{ github.event.inputs.api_url }} ${{ github.event.inputs.token }} &&
