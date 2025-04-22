@@ -1,11 +1,10 @@
 name: NeoLoad Github Action Test
-
 on:
   workflow_dispatch:
     inputs:
       api_url:
         required: true
-        description: 'NeoLoad Web API URL'
+        description: 'NeoLoad Web Api Url'
         default: 'https://neoload-api.saas.neotys.com/'
       token:
         required: true
@@ -20,18 +19,16 @@ jobs:
   neoload_cli_demo:
     name: NeoLoad CLI demo github action
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout local code
         uses: actions/checkout@v4
 
-      - name: Install NeoLoad CLI
+      - name: "Install NeoLoad CLI"
         run: pip3 install -U neoload
 
-      - name: Login to NeoLoad and configure test
+      - name: "Prepare NeoLoad test"
         run: >
-          neoload login --url "${{ github.event.inputs.api_url }}" --token "${{ github.event.inputs.token }}" &&
-          neoload test-settings --zone "${{ github.event.inputs.zone_id }}"
-
+          neoload login --url ${{ github.event.inputs.api_url }} ${{ github.event.inputs.token }} \
+                  test-settings --zone ${{ github.event.inputs.zone_id }}
       - name: Get Workspace ID
         run: neoload workspace list
