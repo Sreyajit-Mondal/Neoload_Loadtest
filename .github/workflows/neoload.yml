@@ -35,14 +35,20 @@ jobs:
       - name: Upload NeoLoad Project (from zipped file in repo)
         run: |
            neoload project --path DemoCI.zip upload
+      - name: List Available Projects
+        run: neoload project ls
 
-
-      # OPTIONAL: Run NeoLoad Test
-      # Make sure to replace "MyScenario" with your actual scenario name
-      - name: Run NeoLoad Test (Optional)
+      - name: List Available Scenarios
+        run: neoload run-types ls --project "DemoCI"
+      - name: Upload NeoLoad Project and Capture ID
+        id: upload
+        run: |
+         PROJECT_ID=$(neoload project --path DemoCI.zip upload --as-code)
+         echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
+      - name: Run NeoLoad Test
         run: |
           neoload run \
-            --scenario "scenario1" \
-            --project "DemoCI" \
-            --zone "${{ github.event.inputs.zone_id }}" \
-            --name "GitHub Run $(date +%Y%m%d%H%M%S)"
+          --scenario "scenario1" \
+          --project "$PROJECT_ID" \
+          --zone "${{ github.event.inputs.zone_id }}" \
+          --name "GitHub Run $(date +%Y%m%d%H%M%S)
