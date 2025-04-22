@@ -30,10 +30,7 @@ jobs:
 
       - name: Login to NeoLoad Web
         run: |
-          neoload login \
-            --url "${{ github.event.inputs.api_url }}" \
-            --token "${{ github.event.inputs.token }}"
-
+           neoload login --url ${{ github.event.inputs.api_url }} ${{ github.event.inputs.token }}
       - name: Zip NeoLoad Project
         run: zip -r demo-1.zip ./demo-1
 
@@ -45,6 +42,6 @@ jobs:
       - name: Run NeoLoad Test (Optional)
         run: |
           neoload run \
-            --scenario "MyScenario" \
+            --scenario "scenario1" \
             --zone "${{ github.event.inputs.zone_id }}" \
             --name "GitHub Run $(date +%Y%m%d%H%M%S)"
