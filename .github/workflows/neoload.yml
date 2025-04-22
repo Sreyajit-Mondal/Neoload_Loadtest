@@ -43,5 +43,6 @@ jobs:
         run: |
           neoload run \
             --scenario "scenario1" \
+            --project "Demo1" \
             --zone "${{ github.event.inputs.zone_id }}" \
             --name "GitHub Run $(date +%Y%m%d%H%M%S)"
