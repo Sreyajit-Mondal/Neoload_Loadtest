@@ -25,10 +25,8 @@ jobs:
 
       - name: "Install NeoLoad CLI"
         run: pip3 install -U neoload
-
-      - name: "Prepare NeoLoad test"
+        
+      - name: Get workspace list via API
         run: >
-          neoload login --url ${{ github.event.inputs.api_url }} ${{ github.event.inputs.token }} \
-                  test-settings --zone ${{ github.event.inputs.zone_id }}
-      - name: Get Workspace ID
-        run: neoload workspace list
+          curl -s -X GET "${{ github.event.inputs.api_url }}v3/workspaces" 
+          -H "Authorization: ApiAccessToken ${{ github.event.inputs.token }}"
