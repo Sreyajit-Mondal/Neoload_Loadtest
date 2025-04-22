@@ -31,11 +31,9 @@ jobs:
       - name: Login to NeoLoad Web
         run: |
            neoload login --url ${{ github.event.inputs.api_url }} ${{ github.event.inputs.token }}
-      - name: Zip NeoLoad Project
-        run: zip -r demo-1.zip ./demo-1
-
-      - name: Upload Zipped NeoLoad Project
-        run: neoload project upload --path demo-1.zip
+      
+      - name: Upload NeoLoad Project (from zipped file in repo)
+        run: neoload project upload --path Demo1.zip
 
       # OPTIONAL: Run NeoLoad Test
       # Make sure to replace "MyScenario" with your actual scenario name
