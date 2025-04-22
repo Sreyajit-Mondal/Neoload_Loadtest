@@ -33,7 +33,9 @@ jobs:
            neoload login --url ${{ github.event.inputs.api_url }} ${{ github.event.inputs.token }}
       
       - name: Upload NeoLoad Project (from zipped file in repo)
-        run: neoload project upload --path Demo1.zip
+        run: |
+           neoload project --path Demo1.zip upload
+
 
       # OPTIONAL: Run NeoLoad Test
       # Make sure to replace "MyScenario" with your actual scenario name
