@@ -12,5 +12,5 @@ jobs:
       - name: Get Project List from NeoLoad Web
         run: |
           curl -X GET "https://neoload.saas.neotys.com/v3/projects" \
-          -H "Authorization: ApiAccessToken ${{ secrets.NLW_API_TOKEN }}"
+          -H "Authorization: ApiAccessToken ${{ secrets.NELOAD_WEB_TOKEN }}"
           
