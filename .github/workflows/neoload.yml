@@ -1,4 +1,4 @@
-name: NeoLoad GitHub Action Test
+name: Run NeoLoad CLI Load Test
 
 on:
   workflow_dispatch:
@@ -10,45 +10,39 @@ on:
       token:
         required: true
         description: 'NeoLoad Web API Token'
-        default: 'paste_your_token_here'
       zone_id:
         required: true
         description: 'NeoLoad Zone ID'
-        default: 'defaultzone'
+      project_name:
+        required: true
+        description: 'NeoLoad Web Project Name'
+        default: 'Demo1'
 
 jobs:
-  neoload_cli_demo:
-    name: NeoLoad CLI Demo
+  run-neoload-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Install NeoLoad CLI
-        run: pip3 install -U neoload
+        run: pip install neoload
 
       - name: Login to NeoLoad Web
         run: |
-           neoload login --url ${{ github.event.inputs.api_url }} ${{ github.event.inputs.token }}
-      
-      - name: Upload NeoLoad Project (from zipped file in repo)
-        run: |
-           neoload project --path DemoCI.zip upload
-      - name: List Available Projects
-        run: neoload project ls
+          neoload login --url "${{ github.event.inputs.api_url }}" ${{ github.event.inputs.token }}
 
-      - name: List Available Scenarios
-        run: neoload run-types ls --project "DemoCI"
-      - name: Upload NeoLoad Project and Capture ID
-        id: upload
+      - name: Upload Project to NeoLoad Web
         run: |
-         PROJECT_ID=$(neoload project --path DemoCI.zip upload --as-code)
-         echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
-      - name: Run NeoLoad Test
+          neoload project --path Demo1.zip upload --name "${{ github.event.inputs.project_name }}"
+
+      - name: Run Test
         run: |
-          neoload run \
-          --scenario "scenario1" \
-          --project "$PROJECT_ID" \
-          --zone "${{ github.event.inputs.zone_id }}" \
-          --name "GitHub Run $(date +%Y%m%d%H%M%S)
+          neoload run --project "${{ github.event.inputs.project_name }}" \
+                      --scenario "Default" \
+                      --zone "${{ github.event.inputs.zone_id }}" \
+                      --name "GitHub CLI Test $(date +'%Y-%m-%d_%H-%M-%S')"
+
+      - name: Logout from NeoLoad
+        run: neoload logout
