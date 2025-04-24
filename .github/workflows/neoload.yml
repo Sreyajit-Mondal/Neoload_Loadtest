@@ -3,6 +3,9 @@ name: NeoLoad YAML Project Run
 on:
   workflow_dispatch:
     inputs:
+      api_url:
+        required: true
+        default: 'https://neoload-api.saas.neotys.com/'
       token:
         required: true
         description: 'NeoLoad Web Token'
