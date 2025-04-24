@@ -36,7 +36,7 @@ jobs:
       - name: "Login and upload project"
         run: |
           neoload login --url ${{ github.event.inputs.api_url }} ${{ github.event.inputs.token }}
-          neoload test-settings --zone ${{ github.event.inputs.zone_id }} --scenario 'simpledemo' createorpatch "My Github Test With CLI"
+          neoload test-settings --zone ${{ github.event.inputs.zone_id }} --scenario 'scenario1' createorpatch "My Github Test With CLI"
           neoload project --path simpledemo.yml upload
 
       - name: "Run NeoLoad test"
