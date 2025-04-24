@@ -29,12 +29,12 @@ jobs:
       - name: "Get NeoLoad project"
         run: >
           rm -f *.yml;
-          wget https://raw.githubusercontent.com/Neotys-Labs/neoload-cli/master/tests/neoload_projects/simpledemo.yml
+          wget https://raw.githubusercontent.com/Sreyajit-Mondal/Neoload_Loadtest/main/simpledemo.yml
 
       - name: "Prepare NeoLoad test"
         run: >
           neoload login --url ${{ github.event.inputs.api_url }} ${{ github.event.inputs.token }} \
-                  test-settings --zone ${{ github.event.inputs.zone_id }} --scenario 'simpledemo' createorpatch "My Github Test With CLI" \
+                  test-settings --zone ${{ github.event.inputs.zone_id }} --scenario 'scenario1' createorpatch "My Github Test With CLI" \
                   project --path simpledemo.yml upload
 
       - name: "NeoLoad run test"
